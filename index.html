@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For You, Kikiii 💖</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+    h1, h2, p {
+      color: #333;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+    .btn {
+      padding: 12px 24px;
+      font-size: 18px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    }
+    .btn:hover {
+      transform: scale(1.1);
+      transition: 0.2s;
+    }
+    #yesBtn {
+      background: #4CAF50;
+      color: white;
+    }
+    #noBtn {
+      background: #f44336;
+      color: white;
+      position: absolute;
+      top: 70%;
+      left: 55%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Haii Kii👋</h1>
+  <p>Ada sesuatu yang ingin aku sampaikan disini...</p>
+  <p>Mungkin agak kurang sebenarnya kalau disampaikan disini</p>
+  <p>Tapi aku pilih cara ini untuk ngomongnya karena kamu sering mageran kalau aku ajak keluar huhuhuhu🥹😞🙈</p>
+
+  <p>Ingat ga Waktu kita secara ga sengaja bertemu di Puswil? seneng banget njirrr kek diantara banyak kemungkinan bisa kebetulan gitu ygy </p>
+
+  <p>Terus aku sering ngajak ke perpus buat ngerjain skripsi bareng? sebenarnya itu moment yang paling aku tunggu, karena bisa lebih lama bareng kamu😅</p>
+
+  <p>Apa kamu masih inget pas aku jatuh, kamu dateng sama Flo bela-belain bawain obat luka. Itu pertama kali ada temen yang sepeduli itu sama aku. aku terhuraaaa🥹🥹</p>
+
+  <p>Dan pas ulang tahunku, kamu masih simpan video wawancara yang absurd itu sampai sekarang. Hal kecil, tapi sangat berarti banget buat aku 🙏</p>
+
+  <p>Kita juga sering mabar Molen bareng. Waktu aku request affinitas couple dan pakai PP couple sama kamu, sebenernya di hati aku berharap suatu hari kita bisa jadi couple beneran. Tapi meskipun in game, aku seneng banget kamu mau nerima ajakan couple aku hehee.</p>
+
+  <p>And Finally, waktu kita nonton Kimetsu no Yaiba, kamu tau ga kii. Aku maraton animenya biar bisa nyambung pas nonton bareng kamu. Karena itu moment yang udah lama aku tunggu-tunggu😅</p>
+
+
+  <h2>Haii Kii👋</h1>
+  <h2>Dari semua itu aku sadar...</h2>
+  <h2>Aku merasa nyaman banget bersamamu kiii 💕</h2>
+  <h2>I want us to be more than friends💖</h2>
+  <h2>Kiki,  do you want us to be boyfriend and girlfriend and make it official to be a couple? 😳💕</h2>
+
+  <button id="yesBtn" class="btn">Yes</button>
+  <button id="noBtn" class="btn">No</button>
+
+<script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+
+    // Pesan random kalau klik No
+    const noMessages = [
+      "Ehh, salah pencet ya? Coba lagi deh 😏",
+      "No?? Impossible. Try again! 😂",
+      "Even if you said no, I’m still happy I confessed 💖"
+    ];
+
+    // Biar tombol No kabur-kaburan
+    noBtn.addEventListener('mouseover', () => {
+      const x = Math.floor(Math.random() * (window.innerWidth - 100));
+      const y = Math.floor(Math.random() * (window.innerHeight - 100));
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    });
+
+    // Kalau tombol No berhasil diklik
+    noBtn.addEventListener('click', () => {
+      const randomMsg = noMessages[Math.floor(Math.random() * noMessages.length)];
+      document.body.innerHTML = `
+        <h1>${randomMsg}</h1>
+        <p>Kirim SS ke aku juga biar aku tau jawabanmu 🤭</p>
+      `;
+    });
+
+    // Kalau tombol Yes diklik
+    yesBtn.addEventListener('click', () => {
+      document.body.innerHTML = `
+        <h1>Yeayy! you just made me the happiest person today 💖😍</h1>
+        <p>Jangan lupa kirim screenshot ini ke aku yaa 📸😏</p>
+      `;
+    });
+</script>
+</body>
+</html>
+
+
