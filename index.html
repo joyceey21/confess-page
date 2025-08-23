@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>For You, Kikiii 💖</title>
@@ -15,39 +16,39 @@
       text-align: center;
       overflow: hidden;
     }
-    h1, p, h2 {
-      margin: 10px;
+    h1, h2, p {
+      margin: 15px;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
     }
-    .buttons {
-      margin-top: 20px;
-      display: flex;
-      gap: 20px;
+    .show {
+      opacity: 1;
     }
     button {
-      padding: 15px 30px;
+      padding: 12px 25px;
       font-size: 18px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: transform 0.3s;
+      margin: 10px;
+    }
+    button:hover {
+      transform: scale(1.1);
     }
     #yesBtn {
       background: #4CAF50;
       color: white;
-    }
-    #yesBtn:hover {
-      transform: scale(1.1);
     }
     #noBtn {
       background: #f44336;
       color: white;
       position: relative;
     }
-    #nextBtn, #startBtn {
-      background: #2196F3;
-      color: white;
+    .hidden {
+      display: none;
     }
-    .heart {
+    .hearts {
       position: fixed;
       top: -10px;
       font-size: 24px;
@@ -55,111 +56,120 @@
     }
     @keyframes fall {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <h1>Haii Kii👋</h1>
-  <p>Aku ada sesuatu buatmu...</p>
-  <button id="startBtn">Mulai 💖</button>  <!-- Tempat pesan -->  <div id="messageBox" style="display:none;">
-    <h2 id="messageText"></h2>
-    <button id="nextBtn">Next ➡</button>
-  </div>  <!-- Tempat tombol Yes/No -->  <div id="finalChoice" style="display:none;">
-    <h2>Aku merasa nyaman banget bersamamu kiii 💕</h2>
-    <h2>I want us to be more than friends💖</h2>
-    <h2>Kiki, do you want us to be a couple? 😳💕</h2>
+
+  <h1 class="show">Haii Kii 👋</h1>
+  <p class="show">Ada sesuatu yang ingin aku sampaikan...</p>
+  
+  <button id="playMusic">Play Sparkle 🎶</button>
+  <button id="startBtn">Mulai</button>
+
+  <div id="messageBox"></div>
+  <button id="nextBtn" class="hidden">Next ➡</button>
+
+  <div id="choiceBtns" class="hidden">
     <button id="yesBtn">Yes</button>
     <button id="noBtn">No</button>
-  </div>  <!-- Musik YouTube -->  <div id="music" style="display:none;">
-    <iframe id="ytplayer" width="0" height="0" 
-      src="https://www.youtube.com/embed/SCQOw1UBsVI?autoplay=1&loop=1&playlist=SCQOw1UBsVI" 
-      frameborder="0" allow="autoplay">
-    </iframe>
-  </div><script>
-  const messages = [
-    "Ada sesuatu yang ingin aku sampaikan disini...",
-    "Mungkin agak kurang sebenarnya kalau disampaikan disini",
-    "Tapi aku pilih cara ini untuk ngomongnya karena kamu sering mageran kalau aku ajak keluar huhuhuhu🥹😞🙈",
-    "Ingat ga waktu kita secara ga sengaja bertemu di Puswil? Seneng banget njirrr kek diantara banyak kemungkinan bisa kebetulan gitu ygy",
-    "Terus aku sering ngajak ke perpus buat ngerjain skripsi bareng? Sebenarnya itu moment yang paling aku tunggu, karena bisa lebih lama bareng kamu😅",
-    "Apa kamu masih inget pas aku jatuh, kamu dateng sama Flo bela-belain bawain obat luka. Itu pertama kali ada temen yang sepeduli itu sama aku. aku terhuraaaa🥹🥹",
-    "Dan pas ulang tahunku, kamu masih simpan video wawancara yang absurd itu sampai sekarang. Hal kecil, tapi sangat berarti banget buat aku 🙏",
-    "Kita juga sering mabar Molen bareng. Waktu aku request affinitas couple dan pakai PP couple sama kamu, sebenernya di hati aku berharap suatu hari kita bisa jadi couple beneran. Tapi meskipun in game, aku seneng banget kamu mau nerima ajakan couple aku hehee.",
-    "And Finally, waktu kita nonton Kimetsu no Yaiba, kamu tau ga kii. Aku maraton animenya biar bisa nyambung pas nonton bareng kamu. Karena itu moment yang udah lama aku tunggu-tunggu😅"
-  ];
+  </div>
 
-  let index = 0;
-  const startBtn = document.getElementById('startBtn');
-  const messageBox = document.getElementById('messageBox');
-  const messageText = document.getElementById('messageText');
-  const nextBtn = document.getElementById('nextBtn');
-  const finalChoice = document.getElementById('finalChoice');
+  <audio id="bgMusic" src="sparkle.mp3" loop></audio>
 
-  startBtn.addEventListener('click', () => {
-    document.getElementById('music').style.display = 'block';
-    startBtn.style.display = 'none';
-    messageBox.style.display = 'block';
-    messageText.textContent = messages[index];
+<script>
+  const playBtn = document.getElementById('playMusic');
+  const music = document.getElementById('bgMusic');
+  playBtn.addEventListener('click', () => {
+    music.play();
+    playBtn.disabled = true;
+    playBtn.innerText = "Playing 🎶";
   });
 
+  const startBtn = document.getElementById('startBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const messageBox = document.getElementById('messageBox');
+  const choiceBtns = document.getElementById('choiceBtns');
+
+  const messages = [
+    "Mungkin agak kurang sebenarnya kalau disampaikan disini...",
+    "Tapi aku pilih cara ini untuk ngomongnya karena kamu sering mageran kalau aku ajak keluar huhuhuhu🥹😞🙈",
+    "Ingat ga waktu kita secara ga sengaja ketemu di Puswil? Seneng banget rasanya,, kek diantara banyaknya kemungkinan kok bisa kebetulan gitu hehehe...",
+    "Terus aku sering ngajak ke perpus buat ngerjain skripsi bareng. Sebenarnya itu moment yang paling aku tunggu, karena bisa lebih lama bareng kamu...",
+    "Apa kamu ingat pas aku jatuh, kamu sama Flo bela-belain datang bawain obat luka. Itu pertama kali aku ngerasa ada temen yang peduli banget sama aku 🥹",
+    "Pas ulang tahunku, kamu masih simpan video wawancara absurd itu sampai sekarang. Hal kecil, tapi sangat berarti banget buatku🙏",
+    "Kita juga sering mabar Molen bareng, Kita juga sering mabar Molen bareng. Waktu aku request affinitas couple dan pakai PP couple sama kamu, sebenernya di hati aku berharap suatu hari kita bisa jadi couple beneran. Tapi meskipun in game, aku seneng banget kamu mau nerima ajakan couple itu hehee. 😅",
+    "Terus waktu kita nonton Kimetsu no Yaiba, kamu tau ga kii, aku maraton animenya biar bisa nyambung pas nonton bareng kamu. Karena itu moment yang udah lama aku tunggu-tunggu😅",
+    "Dari semua itu aku sadar...",
+    "Aku merasa nyaman banget bersamamu kiii 💕",
+    "I want us to be more than friends 💖",
+    "Kiki, do you want us to be boyfriend and girlfriend and make it official to be a couple? 😳💕"
+  ];
+
+  let step = 0;
+
+  startBtn.addEventListener('click', () => {
+    startBtn.classList.add('hidden');
+    showMessage();
+    nextBtn.classList.remove('hidden');
+  });
+
+  function showMessage() {
+    messageBox.innerHTML = <h2 class="show">${messages[step]}</h2>;
+  }
+
   nextBtn.addEventListener('click', () => {
-    index++;
-    if (index < messages.length) {
-      messageText.textContent = messages[index];
+    step++;
+    if (step < messages.length) {
+      showMessage();
     } else {
-      messageBox.style.display = 'none';
-      finalChoice.style.display = 'block';
+      nextBtn.classList.add('hidden');
+      choiceBtns.classList.remove('hidden');
     }
   });
 
-  // Tombol Yes/No
   const noBtn = document.getElementById('noBtn');
   const yesBtn = document.getElementById('yesBtn');
-  let noClickCount = 0;
-
-  const noMessages = [
-    "Ehh, salah pencet ya? Coba lagi deh 😏",
-    "No?? Impossible. Try again! 😂",
-    "Even if you said no, I’m still happy I confessed 💖"
-  ];
+  let noClick = 0;
 
   noBtn.addEventListener('mouseover', () => {
-    if (noClickCount < 2) {
+    if (noClick < 2) {
       const x = Math.floor(Math.random() * (window.innerWidth - 100));
       const y = Math.floor(Math.random() * (window.innerHeight - 100));
-      noBtn.style.position = 'absolute';
+      noBtn.style.position = "absolute";
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
     }
   });
 
   noBtn.addEventListener('click', () => {
-    noClickCount++;
-    if (noClickCount >= 2) {
-      const randomMsg = noMessages[Math.floor(Math.random() * noMessages.length)];
-      document.body.innerHTML = <h1>${randomMsg}</h1><p>Kirim SS ke aku juga biar aku tau jawabanmu 🤭</p>;
+    noClick++;
+    if (noClick < 2) {
+      alert("Ehh, salah pencet ya? Coba lagi 😏");
+    } else {
+      document.body.innerHTML = `
+        <h1>Even if you said no, I’m still happy I confessed 💖</h1>
+        <p>Kirim SS ini ke aku ya 🤭</p>`;
     }
   });
 
   yesBtn.addEventListener('click', () => {
     document.body.innerHTML = `
-      <h1>Yeayy! you just made me the happiest person today 💖😍</h1>
-      <p>Jangan lupa kirim screenshot ini ke aku yaa 📸😏</p>
-    `;
+      <h1>Yeayy! You just made me the happiest person today 💖😍</h1>
+      <p>Jangan lupa kirim screenshot ini ke aku yaa 📸😏</p>`;
   });
 
-  // Animasi hati
-  function createHeart() {
+  // animasi hati random
+  setInterval(() => {
     const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.textContent = '💖';
-    heart.style.left = Math.random() * window.innerWidth + 'px';
-    heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+    heart.classList.add('hearts');
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.fontSize = (20 + Math.random() * 30) + "px";
     document.body.appendChild(heart);
-
     setTimeout(() => heart.remove(), 5000);
-  }
-  setInterval(createHeart, 800);
-</script></body>
+  }, 800);
+</script>
+</body>
 </html>
