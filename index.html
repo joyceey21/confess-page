@@ -1,210 +1,165 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>For You, Kikiii 💖</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --bg1:#ff9a9e; --bg2:#fad0c4; --bg3:#fbc2eb; --bg4:#a6c1ee;
-      --white:#fff; --green:#4CAF50; --red:#f44336; --card:rgba(255,255,255,.15);
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      text-align: center;
+      overflow: hidden;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:'Poppins',sans-serif; color:var(--white);
-      display:flex; align-items:center; justify-content:center; text-align:center;
-      background:linear-gradient(-45deg,var(--bg1),var(--bg2),var(--bg3),var(--bg4));
-      background-size:400% 400%; animation:gradientBG 18s ease infinite;
-      overflow:hidden; padding:20px;
+    h1, p, h2 {
+      margin: 10px;
     }
-    @keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}.card{backdrop-filter:blur(10px); background:var(--card); border-radius:24px; padding:28px; width:min(780px,92vw); box-shadow:0 20px 40px rgba(0,0,0,.12)}
-h1{font-family:'Dancing Script',cursive; font-size:42px; margin:0 0 8px}
-#text{font-size:18px; line-height:1.6; min-height:72px; margin:8px 0 0}
-
-.fade{opacity:0; transform:translateY(18px); transition:all 800ms ease}
-.fade.show{opacity:1; transform:translateY(0)}
-
-.controls{display:flex; gap:12px; justify-content:center; margin-top:18px; flex-wrap:wrap}
-.btn{padding:14px 24px; font-size:16px; border:none; border-radius:12px; cursor:pointer; transition:transform .2s ease,box-shadow .2s ease; box-shadow:0 6px 14px rgba(0,0,0,.15)}
-#yesBtn{background:var(--green); color:#fff}
-#yesBtn:hover{transform:translateY(-2px) scale(1.03)}
-#noBtn{background:var(--red); color:#fff; position:relative}
-#noBtn:hover{transform:rotate(-2deg)}
-
-.topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px}
-.play{background:#1118; color:#fff}
-.play:hover{transform:translateY(-2px)}
-
-/* Floating hearts */
-.heart{position:fixed; bottom:-30px; font-size:18px; pointer-events:none; animation:floatUp linear forwards}
-@keyframes floatUp{to{transform:translateY(-110vh) translateX(var(--drift)); opacity:0}}
-
-/* Subnote */
-.hint{font-size:12px; opacity:.85}
-
-/* Hide the YouTube iframe until user taps Play */
-#yt{position:absolute; width:0; height:0; border:0;}
-
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #yesBtn {
+      background: #4CAF50;
+      color: white;
+    }
+    #yesBtn:hover {
+      transform: scale(1.1);
+    }
+    #noBtn {
+      background: #f44336;
+      color: white;
+      position: relative;
+    }
+    #nextBtn, #startBtn {
+      background: #2196F3;
+      color: white;
+    }
+    .heart {
+      position: fixed;
+      top: -10px;
+      font-size: 24px;
+      animation: fall 5s linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="topbar">
-      <h1 class="fade show">For You, Kiki 💖</h1>
-      <div>
-        <button id="playBtn" class="btn play">Play "Sparkle" 🎶</button>
-        <div class="hint">(Tap play dulu ya supaya musiknya jalan)</div>
-      </div>
-    </div><div id="text" class="fade"></div>
+  <h1>Haii Kii👋</h1>
+  <p>Aku ada sesuatu buatmu...</p>
+  <button id="startBtn">Mulai 💖</button>  <!-- Tempat pesan -->  <div id="messageBox" style="display:none;">
+    <h2 id="messageText"></h2>
+    <button id="nextBtn">Next ➡</button>
+  </div>  <!-- Tempat tombol Yes/No -->  <div id="finalChoice" style="display:none;">
+    <h2>Aku merasa nyaman banget bersamamu kiii 💕</h2>
+    <h2>I want us to be more than friends💖</h2>
+    <h2>Kiki, do you want us to be a couple? 😳💕</h2>
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>  <!-- Musik YouTube -->  <div id="music" style="display:none;">
+    <iframe id="ytplayer" width="0" height="0" 
+      src="https://www.youtube.com/embed/SCQOw1UBsVI?autoplay=1&loop=1&playlist=SCQOw1UBsVI" 
+      frameborder="0" allow="autoplay">
+    </iframe>
+  </div><script>
+  const messages = [
+    "Ada sesuatu yang ingin aku sampaikan disini...",
+    "Mungkin agak kurang sebenarnya kalau disampaikan disini",
+    "Tapi aku pilih cara ini untuk ngomongnya karena kamu sering mageran kalau aku ajak keluar huhuhuhu🥹😞🙈",
+    "Ingat ga waktu kita secara ga sengaja bertemu di Puswil? Seneng banget njirrr kek diantara banyak kemungkinan bisa kebetulan gitu ygy",
+    "Terus aku sering ngajak ke perpus buat ngerjain skripsi bareng? Sebenarnya itu moment yang paling aku tunggu, karena bisa lebih lama bareng kamu😅",
+    "Apa kamu masih inget pas aku jatuh, kamu dateng sama Flo bela-belain bawain obat luka. Itu pertama kali ada temen yang sepeduli itu sama aku. aku terhuraaaa🥹🥹",
+    "Dan pas ulang tahunku, kamu masih simpan video wawancara yang absurd itu sampai sekarang. Hal kecil, tapi sangat berarti banget buat aku 🙏",
+    "Kita juga sering mabar Molen bareng. Waktu aku request affinitas couple dan pakai PP couple sama kamu, sebenernya di hati aku berharap suatu hari kita bisa jadi couple beneran. Tapi meskipun in game, aku seneng banget kamu mau nerima ajakan couple aku hehee.",
+    "And Finally, waktu kita nonton Kimetsu no Yaiba, kamu tau ga kii. Aku maraton animenya biar bisa nyambung pas nonton bareng kamu. Karena itu moment yang udah lama aku tunggu-tunggu😅"
+  ];
 
-<div id="choice" class="controls" style="display:none">
-  <button id="yesBtn" class="btn">Yes</button>
-  <button id="noBtn" class="btn">No</button>
-</div>
+  let index = 0;
+  const startBtn = document.getElementById('startBtn');
+  const messageBox = document.getElementById('messageBox');
+  const messageText = document.getElementById('messageText');
+  const nextBtn = document.getElementById('nextBtn');
+  const finalChoice = document.getElementById('finalChoice');
 
-  </div>  <!-- ===== Optional: Local MP3 fallback (rename sparkle.mp3 to your file) ===== -->  <audio id="localAudio" preload="auto" loop>
-    <source src="sparkle.mp3" type="audio/mpeg" />
-  </audio>  <!-- ===== YouTube IFrame API (use either YT or local MP3) ===== -->  <div id="yt"></div>
-  <script src="https://www.youtube.com/iframe_api"></script>  <script>
-    // ===== Steps (muncul per halaman) =====
-    const steps = [
-      "Haii Kii👋",
-      "Ada sesuatu yang ingin aku sampaikan di sini…",
-      "Mungkin agak kurang kalau disampaikan di chat/teks 😅",
-      "Aku pilih cara ini karena kamu sering mageran kalau aku ajak keluar 🙈",
-      "Inget ga waktu kita ketemu di Puswil? Rasanya seneng banget 🥹",
-      "Aku sering ngajak ke perpus buat ngerjain skripsi bareng…",
-      "Sebenarnya itu momen yang paling aku tunggu biar bisa lama bareng kamu 💕",
-      "Aku sadar… aku nyaman banget sama kamu 💖",
-      "I want us to be more than friends.",
-      "Kiki, do you want us to be boyfriend and girlfriend? 😳💕",
-    ];
+  startBtn.addEventListener('click', () => {
+    document.getElementById('music').style.display = 'block';
+    startBtn.style.display = 'none';
+    messageBox.style.display = 'block';
+    messageText.textContent = messages[index];
+  });
 
-    const textEl = document.getElementById('text');
-    const choice = document.getElementById('choice');
-    let i = 0;
-
-    function nextStep(){
-      if(i < steps.length){
-        textEl.classList.remove('show');
-        setTimeout(()=>{
-          textEl.textContent = steps[i++];
-          textEl.classList.add('show');
-        }, 200);
-      } else {
-        choice.style.display = 'flex';
-      }
+  nextBtn.addEventListener('click', () => {
+    index++;
+    if (index < messages.length) {
+      messageText.textContent = messages[index];
+    } else {
+      messageBox.style.display = 'none';
+      finalChoice.style.display = 'block';
     }
+  });
 
-    // Auto-play steps setiap 2.6s sampai tombol muncul
-    const stepTimer = setInterval(()=>{
-      nextStep();
-      if(i > steps.length){ clearInterval(stepTimer); }
-      if(i === steps.length){
-        setTimeout(()=>{ choice.style.display = 'flex'; }, 800);
-      }
-    }, 2600);
+  // Tombol Yes/No
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  let noClickCount = 0;
 
-    // ===== Tombol Yes / No =====
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
-    let noClicks = 0;
+  const noMessages = [
+    "Ehh, salah pencet ya? Coba lagi deh 😏",
+    "No?? Impossible. Try again! 😂",
+    "Even if you said no, I’m still happy I confessed 💖"
+  ];
 
-    // No kabur-kaburan saat hover sebelum 2x klik
-    noBtn.addEventListener('mouseover', ()=>{
-      if(noClicks < 2){
-        const x = Math.random() * (window.innerWidth - 160);
-        const y = Math.random() * (window.innerHeight - 200);
-        noBtn.style.position = 'fixed';
-        noBtn.style.left = x + 'px';
-        noBtn.style.top  = y + 'px';
-      }
-    });
-
-    noBtn.addEventListener('click', ()=>{
-      noClicks++;
-      if(noClicks >= 2){
-        document.body.innerHTML = `
-          <div class="card" style="margin:auto">
-            <h1 style="margin-bottom:8px">Oke… aku terima jawabanmu 😅💔</h1>
-            <p>Makasih sudah jujur ya 🤍</p>
-          </div>`;
-      } else {
-        alert('Eh salah pencet ya? Coba lagi deh 😏');
-      }
-    });
-
-    yesBtn.addEventListener('click', ()=>{
-      releaseHearts(60, 120); // confetti hearts
-      document.body.innerHTML = `
-        <div class="card" style="margin:auto">
-          <h1>Yeay! You just made me the happiest person today 💖😍</h1>
-          <p>Jangan lupa kirim screenshot ini ke aku ya 📸😏</p>
-        </div>`;
-    });
-
-    // ===== Floating hearts generator =====
-    function releaseHearts(min=20, max=40){
-      const count = Math.floor(Math.random()*(max-min))+min;
-      for(let n=0; n<count; n++){
-        setTimeout(()=>{
-          const e = document.createElement('div');
-          e.className = 'heart';
-          e.textContent = ['💖','💕','💓','💗','💞'][Math.floor(Math.random()*5)];
-          e.style.left = Math.random()*100 + 'vw';
-          e.style.setProperty('--drift', (Math.random()*60-30)+'px');
-          e.style.animationDuration = (4+Math.random()*3)+'s';
-          document.body.appendChild(e);
-          setTimeout(()=> e.remove(), 8000);
-        }, n*80);
-      }
+  noBtn.addEventListener('mouseover', () => {
+    if (noClickCount < 2) {
+      const x = Math.floor(Math.random() * (window.innerWidth - 100));
+      const y = Math.floor(Math.random() * (window.innerHeight - 100));
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
     }
+  });
 
-    // ===== Music: Your Name OST – "Sparkle" =====
-    // Option A: Local MP3 (put sparkle.mp3 in the same folder). Will play after user taps Play.
-    const localAudio = document.getElementById('localAudio');
-
-    // Option B: YouTube IFrame API (replace VIDEO_ID_HERE with the Sparkle video id)
-    // How to get videoId: open the YouTube video and copy the code after v= ...
-    // Example link: https://www.youtube.com/watch?v=VIDEO_ID_HERE
-    let ytPlayer = null;
-    let useYouTube = true; // set false if you prefer local mp3
-
-    window.onYouTubeIframeAPIReady = function(){
-      if(!useYouTube) return;
-      ytPlayer = new YT.Player('yt', {
-        height: '0', width: '0', videoId: 'VIDEO_ID_HERE', // <-- ganti dengan ID video Sparkle
-        playerVars: { 'playsinline': 1, 'loop': 1, 'playlist': 'VIDEO_ID_HERE' },
-        events: { onReady: ()=>{/* wait for user gesture */} }
-      });
+  noBtn.addEventListener('click', () => {
+    noClickCount++;
+    if (noClickCount >= 2) {
+      const randomMsg = noMessages[Math.floor(Math.random() * noMessages.length)];
+      document.body.innerHTML = <h1>${randomMsg}</h1><p>Kirim SS ke aku juga biar aku tau jawabanmu 🤭</p>;
     }
+  });
 
-    // Play button: harus klik dulu karena kebijakan autoplay browser
-    const playBtn = document.getElementById('playBtn');
-    let playing = false;
-    playBtn.addEventListener('click', async ()=>{
-      try{
-        if(useYouTube && ytPlayer){ ytPlayer.playVideo(); }
-        else { await localAudio.play(); }
-        playing = true;
-        playBtn.textContent = 'Pause Music ⏸';
-        releaseHearts(14, 22);
-      }catch(e){
-        // fallback kalau gagal autoplay
-        alert('Kalau musik belum jalan, klik tombolnya sekali lagi ya 💖');
-      }
-    });
+  yesBtn.addEventListener('click', () => {
+    document.body.innerHTML = `
+      <h1>Yeayy! you just made me the happiest person today 💖😍</h1>
+      <p>Jangan lupa kirim screenshot ini ke aku yaa 📸😏</p>
+    `;
+  });
 
-    // Toggle pause/resume
-    playBtn.addEventListener('dblclick', ()=>{
-      if(!playing) return;
-      if(useYouTube && ytPlayer){
-        const state = ytPlayer.getPlayerState();
-        if(state === 1){ ytPlayer.pauseVideo(); playBtn.textContent = 'Play "Sparkle" 🎶'; playing=false; }
-      } else {
-        if(!localAudio.paused){ localAudio.pause(); playBtn.textContent = 'Play "Sparkle" 🎶'; playing=false; }
-      }
-    });
-  </script></body>
+  // Animasi hati
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '💖';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+  }
+  setInterval(createHeart, 800);
+</script></body>
 </html>
